@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 const Signin = () => {
   return (
     <StyledWrapper>
-        <Nav></Nav>
       <form className="form">
         <div className="flex-column">
           <label>Email </label></div>
