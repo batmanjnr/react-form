@@ -9,6 +9,7 @@ function App() {
 
   return (
     <>
+    <Nav/>
   <Routes>
     <Route path='/' element={<SignUp/>}/>
      <Route path='/login' element={<Signin/>}/>
