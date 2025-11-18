@@ -15,7 +15,7 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const userData = {   firstName, lastName,  email, password  };
-    axios.post('http://localhost:3400/user/reg', userData)
+    axios.post('https://backend-1-fmrv.onrender.com/user/reg', userData)
     .then((res)=>{
       console.log('response', res.data);
       alert('signup successful')
