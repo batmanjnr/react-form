@@ -2,27 +2,31 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Nav from "./Nav";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [allUser, setAllUser] = useState([]);
+  const navigate =useNavigate()
 
-  const handleSubmit = () => {
-    // e.preventDefault()
-    let userData = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
-    console.log(userData);
-    let newAllUser =[...allUser, userData]
-    setAllUser(newAllUser)
-    console.log(newAllUser);
-    localStorage.setItem('users', JSON.stringify(newAllUser))
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const userData = {   firstName, lastName,  email, password  };
+    axios.post('http://localhost:3400/user/reg', userData)
+    .then((res)=>{
+      console.log('response', res.data);
+      alert('signup successful')
+      navigate('/login')
+      
+    })
+    .catch((err)=>{
+      console.log("error",err.response ? err.response:err);
+      alert('signup failed')
+      
+    })
     
   };
 
@@ -32,7 +36,7 @@ const SignUp = () => {
   return (
     <StyledWrapper>
       {/* <Nav /> */}
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <p className="title">Register </p>
         <p className="message">Signup now and get full access to our app. </p>
         <div className="flex">
@@ -52,6 +56,7 @@ const SignUp = () => {
           <label>
             <input
               required
+              name="lastName"
               placeholder="put"
               type="text"
               className="input"
@@ -65,6 +70,7 @@ const SignUp = () => {
         <label>
           <input
             required
+            name="email"
             placeholder="yuijhb"
             type="email"
             className="input"
@@ -76,6 +82,7 @@ const SignUp = () => {
         </label>
         <label>
           <input
+          name="password"
             required
             placeholder=""
             type="password"
@@ -86,21 +93,9 @@ const SignUp = () => {
           />
           <span>Password</span>
         </label>
-        <label>
-          <input
-            required
-            placeholder="fdfghj"
-            type="password"
-            className="input"
-          />
-          <span>Confirm password</span>
-        </label>
         <button
           className="submit"
-          type="button"
-          onClick={() => {
-            handleSubmit();
-          }}
+          type="submit"
         >
           Submit
         </button>
@@ -116,50 +111,6 @@ const SignUp = () => {
           gap: "15px", // space between boxes
         }}
       >
-        {allUser.map((user, index) => (
-          <div
-            key={index}
-            style={{
-              border: "1px solid black",
-              width: "auto", // fixed width for neat layout
-              // display: "grid", // internal stacking
-              gridTemplateColumns: "1fr",
-              gap: "8px",
-              padding: "10px",
-              background: "#f9f9f9",
-              borderRadius: "8px",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h1>First Name:{user.firstName}</h1>
-            <h1>{user.lastName}</h1>
-            <h1>{user.email}</h1>
-            <h1>{user.password}</h1>
-            <button
-              style={{
-                backgroundColor: "yellow",
-                color: "black",
-                width: "70px",
-                borderRadius: "10px",
-                border: "1px solid black",
-              }}
-            >
-              Edit
-            </button>
-            <button
-            onClick={deleteUser}
-              style={{
-                backgroundColor: "red",
-                color: "white",
-                width: "70px",
-                borderRadius: "10px",
-                border: "1px solid black",
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
       </div>
     </StyledWrapper>
   );

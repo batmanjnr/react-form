@@ -3,16 +3,19 @@ import Signin from './components/Signin'
 import Nav from './components/Nav'
 import { Route, Routes } from 'react-router-dom'
 import SignUp from './components/SignUp'
+import Props from './pages/Props'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+    {/* <Props></Props> */}
     <Nav/>
   <Routes>
     <Route path='/' element={<SignUp/>}/>
      <Route path='/login' element={<Signin/>}/>
+     <Route path='/dash' element={<Nav/>}/>
   </Routes>
     </>
   )
